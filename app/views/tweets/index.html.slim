@@ -1,0 +1,20 @@
+h1 Listing tweets
+.row
+  .col-md-6
+    .tweets_list
+      - @tweets.each do |tweet|
+        .tweets-box
+          = tweet.message
+          | by
+          = link_to tweet.user.name, users_path(tweet.user)
+          .row
+            .col-md-3
+              = tweet.likes.count
+              - unless tweet.likes.where(liked_by: current_user.id).present?
+                button.btn-sm.change_like data-id='#{tweet.id}' data-type='add' Like
+              - else
+                button.btn-sm.change_like data-id='#{tweet.id}' data-type='delete' Unlike
+            .col-md-3
+              button.btn-sm.reply_tweet data-id='#{tweet.id}' Reply
+            .col-md-3
+              button.btn-sm.retweet data-id='#{tweet.id}' Retweet

@@ -1,0 +1,39 @@
+.container
+  .row
+    .col-md-3.col-md-offest-3
+      h4 Username :
+      = @user.name
+      h4 Age:
+      = @user.age
+      h4 Gender:
+      = @user.gender
+    .col-md-3
+      h4 Profile pic:
+      = image_tag @user.profile_pic.url(:thumb)
+      br
+      br
+      = link_to 'Edit bio', edit_user_path(@user), class: 'btn-sm btn-default'
+      = link_to 'Logout', destroy_user_session_path, method: :delete
+  br
+
+  .row
+    .col-md-3
+      = link_to 'Followers', followers_user_path(@user)
+      br
+      = @user.followers.count
+    .col-md-3
+      = link_to 'Following', following_user_path(@user)
+      br
+      = @user.following.count
+    .col-md-3
+      h6 Tweet count
+      = @user.tweets.count
+
+  br
+  br
+  .row
+    .col-md-4
+      h5 Listing tweets
+      = render 'new_tweet'
+      .tweets_list
+        = render 'tweets_list'

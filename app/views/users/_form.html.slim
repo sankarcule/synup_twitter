@@ -1,0 +1,11 @@
+= simple_form_for(@user) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :age
+    = f.input :gender, collection:[:male, :female]
+    = f.input :profile_pic, as: :file
+
+  .form-actions
+    = f.button :submit

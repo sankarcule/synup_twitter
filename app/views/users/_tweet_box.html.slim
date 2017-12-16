@@ -1,0 +1,14 @@
+.div id="tweets-box-#{tweet.id}"
+  .tweets-box
+    = tweet.message
+    .row
+      .col-md-3
+        = tweet.likes.count
+        - unless tweet.likes.where(liked_by: current_user.id).present?
+          button.btn-sm.change_like data-id='#{tweet.id}' data-type='add' Like
+        - else
+          button.btn-sm.change_like data-id='#{tweet.id}' data-type='delete' Unlike
+      .col-md-3
+        button.btn-sm.reply_tweet data-id='#{tweet.id}' Reply
+      .col-md-3
+        button.btn-sm.retweet data-id='#{tweet.id}' Retweet

@@ -1,0 +1,38 @@
+- @tweets.each do |tweet|
+  .div id="tweets-box-#{tweet.id}"
+    .tweets-box
+      = tweet.message
+      - if tweet.attachments.present?
+        - tweet.attachments.each do |pic|
+          = image_tag pic.picture
+      .row
+        .col-md-3
+          = tweet.likes.count
+          - unless tweet.likes.where(liked_by: current_user.id).present?
+            button.btn-sm.change_like data-id='#{tweet.id}' data-type='add' Like
+          - else
+            button.btn-sm.change_like data-id='#{tweet.id}' data-type='delete' Unlike
+        .col-md-3
+          button.btn-sm.reply_tweet data-id='#{tweet.id}' Reply
+          .show_it id="show-#{tweet.id}"
+            h6 Reply Tweet
+            = simple_form_for(@tweet) do |f|
+              = f.error_notification
+              .form-inputs
+                = f.input :message
+                = f.hidden_field :user_id, value: current_user.id
+                = f.hidden_field :tweet_id, value: tweet.id
+                = f.fields_for :attachments, @tweet.attachments.build do |photo|
+                  = photo.file_field :picture
+
+              .form-actions
+                = f.button :submit
+        .col-md-3
+          button.btn-sm.retweet data-id='#{tweet.id}' Retweet
+      .row
+        - if tweet.replied_tweets.present?
+          h6 Replied Tweets
+          - tweet.replied_tweets.each do |tweet|
+            .row
+              br
+              = tweet.message

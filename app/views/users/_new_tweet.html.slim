@@ -1,0 +1,10 @@
+= simple_form_for(@tweet) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :message
+    = f.hidden_field :user_id, value: current_user.id
+    = f.fields_for :attachable do |photo|
+      = photo.file_field :picture
+
+  .form-actions
+    = f.button :submit

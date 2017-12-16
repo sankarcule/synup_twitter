@@ -1,0 +1,13 @@
+h1 Listing users
+.row
+  .col-md-6
+    .users_list
+      - @users.each do |user|
+        .users-box
+          = user.name
+          .row
+            .col-md-3
+              - if Relationship.where(following_id: user.id, follower_id: current_user.id).present?
+                button.btn-sm.unfollow data-id='#{user.id}' Unfollow
+              - else
+                button.btn-sm.follow data-id='#{user.id}' Follow
